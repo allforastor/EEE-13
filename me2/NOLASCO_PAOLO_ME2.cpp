@@ -5,13 +5,13 @@ class Matrix
     double mat[4][4];
 
 public:
-    Matrix()
+    Matrix()            //default constructor
     {
         for(int i = 0; i < 4; i++)
         {
             for(int j = 0; j < 4; j++)
             {
-                set(i, j, 0);
+                set(i, j, 1);
             }
         }
     }
@@ -19,14 +19,22 @@ public:
     {
         for(int i = 0; i < 4; i++)
         {
-            set(i, i, 1);
             for(int j = 0; j < 4; j++)
-            {
+            {   //identity matrix
+                if(i == j)
+                {
+                    set(i, j, 1);
+                }
+                else
+                {
+                    set(i, j, 0);
+                }
+                //scalar multiplication
                 set(i, j, get(i, j) * x);
             }
         }
     }
-    Matrix(Matrix& src)  //copy constructor
+    Matrix(Matrix& src) //copy constructor
     {
         for(int i = 0; i < 4; i++)
         {
@@ -36,13 +44,13 @@ public:
             }
         }
     }
-    void operator=(Matrix& rhs)
+    void operator=(Matrix&& rhs)    //the double reference allows solving (see previous commit for issue)
     {
         for(int i = 0; i < 4; i++)
         {
             for(int j = 0; j < 4; j++)
             {
-                set(i, j, rhs.get(i, j));
+                mat[i][j] = rhs.get(i, j);
             }
         }
     }
@@ -91,11 +99,17 @@ Matrix operator*(Matrix& orig, const double x)
 Matrix operator*(Matrix& muld, Matrix& mulr)
 {
     Matrix prod;
+    double sum;
     for(int i = 0; i < 4; i++)
     {
         for(int j = 0; j < 4; j++)
         {
-            prod.set(i, j, muld.get(i, j) * mulr.get(i, j));
+            sum = 0;    //resets for every space in the matrix
+            for(int k = 0; k < 4; k++)
+            {
+                sum = sum + (muld.get(i, k) * mulr.get(k, j));
+            }
+            prod.set(i, j, sum);
         }
     }
     return prod;
@@ -116,7 +130,7 @@ void Matrix::print()
         printf("| ");
         for(int j = 0; j < 4; j++)
         {
-            printf("%.0lf ", mat[i][j]);
+            printf("%.0lf ", mat[i][j]);    //limits printing to whole numbers
         }
         printf("|\n");
     }
@@ -125,31 +139,23 @@ void Matrix::print()
 
 int main()
 {
-    Matrix matrix1, matrix2(1), result(matrix2);
+    Matrix matrix1, matrix2(2), result(matrix2);
     matrix1.print();
     matrix2.print();
     result = matrix1 + matrix2;
     result.print();
-    /*result = matrix - matrix2;
+    result = matrix1 - matrix2;
     result.print();
-    result = matrix1 * 3;
+    result = matrix1 * 2;
     result.print();
     result = matrix1 * matrix2;
-    result.print();*/
+    result.print();
 
     return 0;
 }
 
-//COMMENT:
-/*
-    Code won't compile due to
-    "non-const lvalue reference of type 'Matrix&' to an rvalue of type 'Matrix'
-*//*
-    Stack Overflow results say that this is bypassed with a certain C++ compiler:
-    stackoverflow.com/questions/18565167/non-const-lvalue-references
-*/
-
 //REFERENCES:
 /*
     EEE 13 Notes and Sample Codes
+    https://www.justsoftwaresolutions.co.uk/cplusplus/core-c++-lvalues-and-rvalues.html
 */
