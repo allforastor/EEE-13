@@ -11,7 +11,7 @@ public:
         {
             for(int j = 0; j < 4; j++)
             {
-                set(i, j, 1);
+                set(i, j, 1);   //fills the 4 x 4 matrix with 1 (or any value you enter)
             }
         }
     }
@@ -44,7 +44,18 @@ public:
             }
         }
     }
-    void operator=(Matrix&& rhs)    //the double reference allows solving (see previous commit for issue)
+    void operator=(Matrix& rhs)     //for a = b
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                mat[i][j] = rhs.get(i, j);
+            }
+        }
+    }
+    void operator=(Matrix&& rhs)    //for a = b + c
+    //the double reference allows solving (see previous commit for issue)
     {
         for(int i = 0; i < 4; i++)
         {
@@ -142,6 +153,7 @@ int main()
     Matrix matrix1, matrix2(2), result(matrix2);
     matrix1.print();
     matrix2.print();
+    result.print();
     result = matrix1 + matrix2;
     result.print();
     result = matrix1 - matrix2;
@@ -149,6 +161,9 @@ int main()
     result = matrix1 * 2;
     result.print();
     result = matrix1 * matrix2;
+    result.print();
+    matrix1 = result;
+    result = matrix1 + matrix2;
     result.print();
 
     return 0;
