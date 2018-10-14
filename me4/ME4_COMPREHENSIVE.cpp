@@ -12,21 +12,31 @@ int main()
     int m, n;
     cin >> n;
     int nums[n];
+    int print[n];
     for(int i = 0; i < n; i++)
     {
         cin >> nums[i];
     }
+    for(int i = 0; i < n; i++)
+    {
+        print[i] = nums[i];
+    }
     cin >> m;
     int bins[n] = {0};
-    cout << endl;
 
     assign(n, nums, m, bins);
 
+    printf("\nitems:\t ");
     for(int i = 0; i < n; i++)
     {
-        cout << bins[i] << " ";
+        printf("%d  ", print[i]);
     }
-    cout << endl;
+    printf("\nbins:\t");
+    for(int i = 0; i < n; i++)
+    {
+        printf("[%d]", bins[i]);
+    }
+    printf("\n");
 
     return 0;
 }
@@ -41,8 +51,22 @@ void assign(int n, int nums[], int m, int bins[])
         {
             order[i] = i;
         }
+        printf("\nbin size: %d\n\n", mean);
 
         sort(n, nums, order);
+
+        printf("unsorted:\t");
+        for(int i = 0; i < n; i++)
+        {
+            printf("%d ", nums[i]);
+        }
+        printf("\nsorted:\t\t");
+        for(int i = 0; i < n; i++)
+        {
+            printf("%d ", nums[order[i]]);
+        };
+        printf("\n\n");
+
         group(n, nums, mean, order, bins);
     }
 }
@@ -57,7 +81,7 @@ int ave(int n, int nums[], int m)
 
     if(total % m != 0)      //for checking
     {
-        cout << "ERROR: cannot equally divide " << total << " into " << m << " bins" << endl << endl;
+        cout << endl << "ERROR: cannot equally divide " << total << " into " << m << " bins" << endl << endl;
         return 0;
     }
     else
@@ -90,6 +114,18 @@ void group(int n, int nums[], int mean, int order[], int bins[])
     int error = 0;
     for(int i = 0; i < n; i++)
     {
+        printf("For bin %d:\ti = %d\n ", bin, i);
+        for(int i = 0; i < n; i++)
+        {
+            printf("%d  ", nums[i]);
+        }
+        printf("\n");
+        for(int i = 0; i < n; i++)
+        {
+            printf("[%d]", bins[i]);
+        }
+        printf("\n\n");
+
         if(nums[order[i]] != -1)    //prevents overlap
         {
             if(nums[order[i]] > mean)      //for checking
