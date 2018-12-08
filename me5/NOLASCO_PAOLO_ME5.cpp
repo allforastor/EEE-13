@@ -54,14 +54,6 @@ int fill(Item arr[], int n, int c)
         }
     }
 
-    for (int i = 0; i <= n; i++)
-    {
-        for (int j = 0; j <= c; j++)
-        {
-            cout << memo[i][j] << "\t";
-        }
-        cout << endl;
-    }
     return memo[n][c];
 }
 
@@ -69,27 +61,26 @@ int main()
 {
     int n, c;
 
-    cout << "Enter number of unique items: ";
     cin >> n;
 
     Item arr[n];
     for(int i = 0; i < n; i++)
     {
-        cout << "Item " << (i + 1) << ": ";
         cin >> arr[i].v >> arr[i].w >> arr[i].k;
     }
-    cout << "Enter knapsack capacity: ";
     cin >> c;
 
+    /*
     printf("Item number\tValue\tWeight\tQuantity\n");
     for(int i = 0; i < n; i++)
     {
         printf("Item #%d\t\t  %d\t  %d\t   %d\n", (i + 1), arr[i].v, arr[i].w, arr[i].k);
     }
+    */
 
     int total = fill(arr, n, c);
 
-    cout << "Filled knapsack value: " << total << endl;
+    cout << total << endl;
 }
 
 //REFERENCES
