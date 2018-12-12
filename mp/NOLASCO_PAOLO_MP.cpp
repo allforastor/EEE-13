@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <queue>
-#define MAX(a, b) (((a) < (b)) ? (a):(b))
+#define MIN(a, b) (((a) < (b)) ? (a):(b))
 #define SQR(a) ((a) * (a))
 #define INF 99999
 
@@ -120,7 +120,7 @@ int cost(int n, int n1, int n2)     //returns the shortest path's cost
         }
     }
 
-    return fwgraph[n1][n2];
+    return MIN(fwgraph[n1][n2], fwgraph[n2][n1]);
 }
 
 
